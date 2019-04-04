@@ -5,16 +5,33 @@ public abstract class Creature {
     protected String name;
     protected String description;
 
+    public Creature(Level.Room r, String name, String description){
+        currentRoom = r;
+        this.name = name;
+        this.description = description;
+        currentRoom.addCreature(this);
+    }
+
     public abstract void move();
 
     protected Level.Room getRandomAdjacentRoom(){
         ArrayList<Level.Room> rooms = new ArrayList<Level.Room> (currentRoom.getNeighbors().values());
-        int randomIndex = (int)Math.random()*rooms.size();
+        if (rooms.size() == 0) return currentRoom;
+        int randomIndex = (int)(Math.random()*rooms.size());
         return  rooms.get(randomIndex);
     }
 
-    protected void setCurrentRoom(Level.Room currentRoom) {
-        this.currentRoom = currentRoom;
+    protected boolean isPlayerAdjacent(Player p){
+        Level.Room playerRoom = p.getCurrentRoom();
+        if(currentRoom.getNeighbors().containsValue(playerRoom.getName())){
+            return true;
+        }
+        return false;
+    }
+
+    protected void setCurrentRoom(Level.Room r) {
+        System.out.println(this.getName()+ " has moved from " + currentRoom.getName() + " to " + r.getName());
+        this.currentRoom = r;
     }
 
     protected String getName() {

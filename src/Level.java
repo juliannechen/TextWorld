@@ -4,9 +4,21 @@ import java.util.HashMap;
 
 public class Level {
     private HashMap<String, Room> rooms;
+    private ArrayList<Creature> creatures;
 
     public Level() {
         rooms = new HashMap<String, Room>();
+        creatures = new ArrayList<Creature>();
+    }
+
+    public void addCreature(Creature c) {
+        creatures.add(c);
+    }
+
+    public void moveAllCreatures() {
+        for (Creature c : creatures) {
+            c.move();
+        }
     }
 
     public void addRoom(String name, String description) {
@@ -25,12 +37,27 @@ public class Level {
         Room n2 = getRoom(name2);
         n1.addNeighbor(n2);
         n2.addNeighbor(n1);
-
     }
 
     public Room getRoom(String name) {
         return rooms.get(name);
 
+    }
+
+    public void init() {
+        addRoom("hall", "a long dank hallway");
+        addRoom("closet", "a dark closet");
+        addRoom("dungeon", "a deserted dungeon");
+
+        addDirectedEdge("hall", "dungeon");
+        addUndirectedEdge("hall", "closet");
+
+        getRoom("hall").addItem(new Item("pineapple", "a ripe pineapple"));
+        getRoom("dungeon").addItem(new Item("almond", "a roasted almond"));
+        getRoom("closet").addItem(new Item("cake", "a vanilla cake"));
+
+        Creature c = new Chicken(getRoom("hall"), "chicken", "");
+        addCreature(c);
     }
 
     public class Room {
@@ -52,21 +79,16 @@ public class Level {
             return creatures;
         }
 
-        public Creature removeCreature(String name){
-            for (Creature c: creatures) {
-                 if(c.getName().equals(name)) {
-                     creatures.remove(c);
-                     return c;
-                 }
-            }
-            return null;
+        public Creature removeCreature(Creature c) {
+            creatures.remove(c);
+            return c;
         }
 
-        public void addCreature(Creature creature){
+        public void addCreature(Creature creature) {
             creatures.add(creature);
         }
 
-        public String displayCreatures(){
+        public String displayCreatures() {
             String output = "";
             for (Creature creature : creatures) {
                 output += creature.getName() + ", ";
@@ -92,7 +114,7 @@ public class Level {
             return output;
         }
 
-        public HashMap<String, Room> getNeighbors(){
+        public HashMap<String, Room> getNeighbors() {
             return neighbors;
         }
 
