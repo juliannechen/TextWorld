@@ -10,6 +10,7 @@ public class Wumpus extends Creature {
     public void move() {
         if (isPlayerAdjacent(player)) {
 
+
         } else {
             System.out.println(this.getName() + " did not move");
         }

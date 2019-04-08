@@ -45,19 +45,20 @@ public class Level {
     }
 
     public void init() {
-        addRoom("hall", "a long dank hallway");
-        addRoom("closet", "a dark closet");
-        addRoom("dungeon", "a deserted dungeon");
 
-        addDirectedEdge("hall", "dungeon");
-        addUndirectedEdge("hall", "closet");
-
-        getRoom("hall").addItem(new Item("pineapple", "a ripe pineapple"));
-        getRoom("dungeon").addItem(new Item("almond", "a roasted almond"));
-        getRoom("closet").addItem(new Item("cake", "a vanilla cake"));
-
-        Creature c = new Chicken(getRoom("hall"), "chicken", "");
-        addCreature(c);
+//        addRoom("hall", "a long dank hallway");
+//        addRoom("closet", "a dark closet");
+//        addRoom("dungeon", "a deserted dungeon");
+//
+//        addDirectedEdge("hall", "dungeon");
+//        addUndirectedEdge("hall", "closet");
+//
+//        getRoom("hall").addItem(new Item("pineapple", "a ripe pineapple"));
+//        getRoom("dungeon").addItem(new Item("almond", "a roasted almond"));
+//        getRoom("closet").addItem(new Item("cake", "a vanilla cake"));
+//
+//        Creature c = new Chicken(getRoom("hall"), "chicken", "");
+//        addCreature(c);
     }
 
     public class Room {
@@ -73,6 +74,13 @@ public class Level {
             this.description = description;
             items = new ArrayList<Item>();
             creatures = new ArrayList<Creature>();
+        }
+        
+        public Level.Room getRandomAdjacentRoom() {
+            ArrayList<Level.Room> neighbors = new ArrayList<Level.Room>(getNeighbors().values());
+            if (neighbors.size() == 0) return this;
+            int randomIndex = (int) (Math.random() * neighbors.size());
+            return neighbors.get(randomIndex);
         }
 
         public ArrayList<Creature> getCreatures() {

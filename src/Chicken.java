@@ -9,8 +9,6 @@ public class Chicken extends Creature {
     @Override
     public void move() {
         Level.Room nextRoom = this.getRandomAdjacentRoom();
-        currentRoom.removeCreature(this);
-        nextRoom.addCreature(this);
-        setCurrentRoom(nextRoom);
+        moveToNeighboringRoom(nextRoom);
     }
 }
