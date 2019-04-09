@@ -38,10 +38,6 @@ public abstract class Creature {
         if (currentRoom.getNeighbors().containsValue(playerRoom.getName())) {
             return true;
         }
-        for (String key : currNeighbors.keySet()) {
-
-            if(playerRoom.getName() .equals(key)) return true;
-        }
         return false;
     }
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class Level {
     private HashMap<String, Room> rooms;
     private ArrayList<Creature> creatures;
+    private Player player;
 
     public Level() {
         rooms = new HashMap<String, Room>();
@@ -44,7 +45,12 @@ public class Level {
 
     }
 
+    public Player getPlayer(){
+        return player;
+    }
+
     public void init() {
+        //TODO: initialize player
 
 //        addRoom("hall", "a long dank hallway");
 //        addRoom("closet", "a dark closet");

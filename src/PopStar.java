@@ -8,8 +8,12 @@ public class PopStar extends Creature {
 
     @Override
     public void move() {
-        Level.Room nextRoom = lookForPlayer();
-
+        if(isPlayerAdjacent(player)){
+            moveToNeighboringRoom(player.getCurrentRoom());
+        } else {
+            Level.Room newRoom = getRandomAdjacentRoom();
+            moveToNeighboringRoom(newRoom);
+        }
     }
 
 }
