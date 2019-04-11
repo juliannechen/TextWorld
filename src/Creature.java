@@ -32,17 +32,11 @@ public abstract class Creature {
         return false;
     }
 
-    public boolean isPlayerNear(Player p) {
+    public boolean isPlayerAdjacent(Player p) {
         Level.Room playerRoom = p.getCurrentRoom();
         HashMap<String, Level.Room> currNeighbors = currentRoom.getNeighbors();
-        if (currentRoom.getNeighbors().containsValue(playerRoom)) {
+        if (currentRoom.getNeighbors().containsValue(playerRoom.getName())) {
             return true;
-        }
-
-        for (Level.Room room : currNeighbors.values()) {
-            if(room.getNeighbors().containsValue(playerRoom)){
-                return true;
-            }
         }
         return false;
     }
