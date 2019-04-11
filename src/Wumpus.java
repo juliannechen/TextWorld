@@ -8,11 +8,9 @@ public class Wumpus extends Creature {
 
     @Override
     public void move() {
-        if (isPlayerAdjacent(player)) {
-
-
-        } else {
-            System.out.println(this.getName() + " did not move");
+        if (!nextRoom.equals(player.getCurrentRoom())) {
+            Level.Room nextRoom = player.getCurrentRoom().getRandomNeighbor();
+            moveToNeighboringRoom(nextRoom);
         }
 
     }

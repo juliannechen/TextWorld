@@ -76,8 +76,7 @@ public class Level {
             creatures = new ArrayList<Creature>();
         }
         
-        public Level.Room getRandomAdjacentRoom() {
-            ArrayList<Level.Room> neighbors = new ArrayList<Level.Room>(getNeighbors().values());
+        public Level.Room getRandomNeighbor() {
             if (neighbors.size() == 0) return this;
             int randomIndex = (int) (Math.random() * neighbors.size());
             return neighbors.get(randomIndex);
