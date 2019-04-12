@@ -27,6 +27,7 @@ public abstract class Creature {
             currentRoom.removeCreature(this);
             nextRoom.addCreature(this);
             currentRoom = nextRoom;
+            System.out.println(name + " moved to " + currentRoom.getName());
             return true;
         }
         return false;

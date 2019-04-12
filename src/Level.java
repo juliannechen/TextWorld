@@ -27,13 +27,13 @@ public class Level {
         rooms.put(name, room);
     }
 
-    public void addUndirectedEdge(String name1, String name2) {
+    public void addDirectedEdge(String name1, String name2) {
         Room n1 = getRoom(name1);
         Room n2 = getRoom(name2);
         n1.addNeighbor(n2);
     }
 
-    public void addDirectedEdge(String name1, String name2) {
+    public void addUndirectedEdge(String name1, String name2) {
         Room n1 = getRoom(name1);
         Room n2 = getRoom(name2);
         n1.addNeighbor(n2);
@@ -49,22 +49,25 @@ public class Level {
         return player;
     }
 
-    public void init() {
-        //TODO: initialize player
+    public void initLevel(Player player) {
+        this.player = player;
 
-//        addRoom("hall", "a long dank hallway");
-//        addRoom("closet", "a dark closet");
-//        addRoom("dungeon", "a deserted dungeon");
-//
-//        addDirectedEdge("hall", "dungeon");
-//        addUndirectedEdge("hall", "closet");
-//
-//        getRoom("hall").addItem(new Item("pineapple", "a ripe pineapple"));
-//        getRoom("dungeon").addItem(new Item("almond", "a roasted almond"));
-//        getRoom("closet").addItem(new Item("cake", "a vanilla cake"));
-//
-//        Creature c = new Chicken(getRoom("hall"), "chicken", "");
-//        addCreature(c);
+        addRoom("hall", "a long dank hallway");
+        addRoom("closet", "a dark closet");
+        addRoom("dungeon", "a deserted dungeon");
+
+        addDirectedEdge("hall", "dungeon");
+        addUndirectedEdge("hall", "closet");
+
+        getRoom("hall").addItem(new Item("pineapple", "a ripe pineapple"));
+        getRoom("dungeon").addItem(new Item("almond", "a roasted almond"));
+        getRoom("closet").addItem(new Item("cake", "a vanilla cake"));
+
+        addCreature(new Chicken(getRoom("hall"), "chicken1", ""));
+        addCreature(new Chicken(getRoom("hall"), "chicken2", ""));
+        addCreature(new Wumpus(getRoom("hall"), "wumpus1", "", player));
+        addCreature(new PopStar(getRoom("dungeon"), "popstar1", "", player));
+
     }
 
     public class Room {

@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class PopStar extends Creature {
     Player player;
 
@@ -8,12 +10,26 @@ public class PopStar extends Creature {
 
     @Override
     public void move() {
-        if(isPlayerAdjacent(player)){
-            moveToNeighboringRoom(player.getCurrentRoom());
-        } else {
-            Level.Room newRoom = getRandomAdjacentRoom();
-            moveToNeighboringRoom(newRoom);
+        moveToNeighboringRoom(roomToPlayer());
+    }
+
+    public Level.Room roomToPlayer() {
+        Level.Room playerRoom = player.getCurrentRoom();
+        HashMap<String, Level.Room> currNeighbors = currentRoom.getNeighbors();
+
+        //if player is 1 step away
+        if (currentRoom.getNeighbors().containsValue(playerRoom)) {
+            return playerRoom;
         }
+
+        //if player is 2 steps away
+        for (Level.Room room : currNeighbors.values()) {
+            if (room.getNeighbors().containsValue(playerRoom)) {
+                return room;
+            }
+        }
+
+        return getRandomAdjacentRoom();
     }
 
 }

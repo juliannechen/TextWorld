@@ -1,53 +1,56 @@
+import java.util.HashMap;
 import java.util.Scanner;
-
 public class Main {
+
+    static HashMap<String, Command> commands = new HashMap<>();
+    static Level level;
+    static Player player;
+
     public static void main(String[] args) {
-        Level g = new Level();
-        g.init();
+        level = new Level();
+        player = new Player("Player1", "first player");
+        initCommands();
+        level.initLevel(player);
 
-        Player player = new Player("Julianne", "");
-        player.setCurrentRoom(g.getRoom("hall"));
+        player.setCurrentRoom(level.getRoom("hall"));
         String response = "";
-        Scanner s = new Scanner(System.in);
-
+        Scanner in = new Scanner(System.in);
         System.out.println("your options are go, look, add, take, drop, and quit");
 
         do {
+            System.out.print("> ");
             System.out.println("You are in the " + player.getCurrentRoom().getName());
             System.out.println("What do you want to do?");
-            response = s.nextLine();
-            String[] words = response.split(" ");
-            String firstWord = words[0];
+            response = in.nextLine();
 
-            if (firstWord.equals("go")) {
-                boolean moved = player.moveToRoom(words[1]);
-                if (moved == true) {
-                    System.out.println("you have entered " + player.getCurrentRoom().getName());
-                } else {
-                    System.out.println("non-existent room, try typing look");
-                }
-                g.moveAllCreatures();
-            } else if (firstWord.equals("look")) {
-                System.out.println("the items currently in the room are " + player.getCurrentRoom().displayItems());
-                System.out.println("the creatures currently in the room are " + player.getCurrentRoom().displayCreatures());
-            } else if (firstWord.equals("add")) {
-                String newRoom = words[1];
-                g.addRoom(newRoom, "");
-                g.addDirectedEdge(player.getCurrentRoom().getName(), newRoom);
-            } else if (firstWord.equals("quit")) {
-                response = "quit";
-            } else if (firstWord.equals("take")) {
-                Item item = player.getCurrentRoom().removeItem(words[1]);
-                System.out.println("you have taken a " + item.getName());
-                player.addItem(item);
-            } else if (firstWord.equals("drop")) {
-                Item item = player.removeItem(words[1]);
-                player.getCurrentRoom().addItem(item);
-                System.out.println("you have dropped a " + item.getName() + " to the " + player.getCurrentRoom().getName());
-            } else {
-                System.out.println("your options are go, look, add, take, drop, and quit");
-            }
+            Command command = lookupCommand(response);
+            command.execute();
+            level.moveAllCreatures();
+
         } while (!response.equals("quit"));
+
+        System.out.println("you have exited the game");
+    }
+
+    private static Command lookupCommand(String response) {
+        String commandWord = getFirstWord(response);
+        Command c = commands.get(commandWord);
+        if(c==null) return new EmptyCommand();
+        c.init(response);
+        return c;
+    }
+
+    private static String getFirstWord(String response) {
+        String[] words = response.split(" ");
+        return words[0];
+    }
+
+    private static void initCommands() {
+        commands.put("go", new GoCommand(player));
+        commands.put("look", new LookCommand(player));
+        commands.put("add", new AddCommand(level));
+        commands.put("take", new TakeCommand(player));
+        commands.put("drop" , new DropCommand(player));
+
     }
 }
-

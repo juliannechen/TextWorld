@@ -44,6 +44,7 @@ public class Player {
         for (Item item : items) {
             output += item.getName() + ", ";
         }
+
         if (output.equals("")) return "nothing";
         return output;
     }

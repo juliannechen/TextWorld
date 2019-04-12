@@ -1,9 +1,9 @@
 public class TakeCommand implements Command{
-    Level level;
+    Player p;
     String itemName;
 
-    public TakeCommand(Level l){
-        this.level = level;
+    public TakeCommand(Player p){
+        this.p = p;
     }
 
     @Override
@@ -11,15 +11,20 @@ public class TakeCommand implements Command{
         this.itemName = getLastWordIn(userString);
     }
 
-    private String getLastWordIn(String userString) {
+    public String getLastWordIn(String userString) {
         String[] words = userString.split(" ");
         return words[words.length-1];
     }
 
     @Override
     public boolean execute() {
-        Player p = level.getPlayer();
-        boolean success = p.getCurrentRoom().removeItem(itemName);
+        boolean success = false;
+        Item item = p.getCurrentRoom().removeItem(itemName);
+        if (item!=null) {
+            success = true;
+            p.addItem(item);
+            System.out.println("you have taken a " + item.getName());
+        }
         return success;
     }
 
